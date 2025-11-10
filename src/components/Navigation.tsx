@@ -15,7 +15,7 @@ const Navigation = () => {
             <Button variant="ghost" className="text-foreground">
               Login
             </Button>
-            <Button variant="outline">
+            <Button variant="default">
               Find a CoFounder
             </Button>
           </div>
