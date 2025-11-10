@@ -47,6 +47,9 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        "brand-purple": "hsl(var(--brand-purple))",
+        "brand-rose": "hsl(var(--brand-rose))",
+        "brand-blue": "hsl(var(--brand-blue))",
       },
       backgroundImage: {
         'gradient-coral': 'linear-gradient(135deg, hsl(var(--gradient-start)), hsl(var(--gradient-middle)), hsl(var(--gradient-end)))',

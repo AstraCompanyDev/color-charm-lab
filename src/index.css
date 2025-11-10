@@ -41,6 +41,10 @@ All colors MUST be HSL.
     --gradient-start: 6 78% 57%;
     --gradient-middle: 340 82% 52%;
     --gradient-end: 280 67% 62%;
+    
+    --brand-purple: 337 30% 22%;
+    --brand-rose: 8 21% 53%;
+    --brand-blue: 213 45% 44%;
   }
 }
 
