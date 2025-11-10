@@ -6,6 +6,12 @@ import avatar3 from "@/assets/avatar-3.jpg";
 import avatar4 from "@/assets/avatar-4.jpg";
 import avatar5 from "@/assets/avatar-5.jpg";
 import avatar6 from "@/assets/avatar-6.jpg";
+import avatar7 from "@/assets/avatar-7.jpg";
+import avatar8 from "@/assets/avatar-8.jpg";
+import avatar9 from "@/assets/avatar-9.jpg";
+import avatar10 from "@/assets/avatar-10.jpg";
+import avatar11 from "@/assets/avatar-11.jpg";
+import avatar12 from "@/assets/avatar-12.jpg";
 
 const Hero = () => {
   return (
@@ -40,24 +46,24 @@ const Hero = () => {
         
         {/* Bottom left cluster */}
         <div className="absolute bottom-[20%] left-[8%] animate-pulse delay-150">
-          <img src={avatar1} alt="Community member" className="w-10 h-10 rounded-full object-cover border-2 border-secondary/50 shadow-lg" />
+          <img src={avatar7} alt="Community member" className="w-10 h-10 rounded-full object-cover border-2 border-secondary/50 shadow-lg" />
         </div>
         <div className="absolute bottom-[15%] left-[14%] animate-pulse delay-250">
-          <img src={avatar2} alt="Community member" className="w-12 h-12 rounded-full object-cover border-2 border-secondary/50 shadow-lg" />
+          <img src={avatar8} alt="Community member" className="w-12 h-12 rounded-full object-cover border-2 border-secondary/50 shadow-lg" />
         </div>
         <div className="absolute bottom-[25%] left-[12%] animate-pulse delay-350">
-          <img src={avatar3} alt="Community member" className="w-14 h-14 rounded-full object-cover border-2 border-secondary/50 shadow-lg" />
+          <img src={avatar9} alt="Community member" className="w-14 h-14 rounded-full object-cover border-2 border-secondary/50 shadow-lg" />
         </div>
         
         {/* Bottom right cluster */}
         <div className="absolute bottom-[18%] right-[10%] animate-pulse delay-450">
-          <img src={avatar4} alt="Community member" className="w-12 h-12 rounded-full object-cover border-2 border-secondary/50 shadow-lg" />
+          <img src={avatar10} alt="Community member" className="w-12 h-12 rounded-full object-cover border-2 border-secondary/50 shadow-lg" />
         </div>
         <div className="absolute bottom-[23%] right-[15%] animate-pulse delay-550">
-          <img src={avatar5} alt="Community member" className="w-10 h-10 rounded-full object-cover border-2 border-secondary/50 shadow-lg" />
+          <img src={avatar11} alt="Community member" className="w-10 h-10 rounded-full object-cover border-2 border-secondary/50 shadow-lg" />
         </div>
         <div className="absolute bottom-[14%] right-[18%] animate-pulse delay-100">
-          <img src={avatar6} alt="Community member" className="w-14 h-14 rounded-full object-cover border-2 border-secondary/50 shadow-lg" />
+          <img src={avatar12} alt="Community member" className="w-14 h-14 rounded-full object-cover border-2 border-secondary/50 shadow-lg" />
         </div>
       </div>
 
