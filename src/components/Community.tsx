@@ -6,19 +6,19 @@ const communityCards = [
     icon: Rocket,
     title: "Start your business",
     description: "Got the next best idea in business? Get access to everything you need to take on the world with your StartUp",
-    color: "from-primary to-accent",
+    color: "from-secondary to-primary",
   },
   {
     icon: TrendingUp,
     title: "Grow your business",
     description: "Ready to grow your market? Get exclusive access to professionals and leaders to get you there!",
-    color: "from-secondary to-primary",
+    color: "from-primary to-secondary",
   },
   {
     icon: Wallet,
     title: "Fund your business",
     description: "Is your business seeking capital? Access an exclusive network of investors and prepare your business to get Funded!",
-    color: "from-accent to-secondary",
+    color: "from-secondary to-accent",
   },
 ];
 
@@ -27,7 +27,7 @@ const Community = () => {
     <section className="py-20">
       <div className="container mx-auto px-6">
         <div className="text-center mb-16">
-          <h4 className="text-sm font-semibold text-primary mb-4 tracking-wider">
+          <h4 className="text-sm font-semibold text-secondary mb-4 tracking-wider">
             Our Community
           </h4>
           <h2 className="text-4xl md:text-5xl font-bold text-foreground">

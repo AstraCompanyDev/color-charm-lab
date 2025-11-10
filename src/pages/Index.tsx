@@ -2,6 +2,7 @@ import Navigation from "@/components/Navigation";
 import Hero from "@/components/Hero";
 import Features from "@/components/Features";
 import TrustedBy from "@/components/TrustedBy";
+import CommunityShowcase from "@/components/CommunityShowcase";
 import Community from "@/components/Community";
 import Stats from "@/components/Stats";
 import Testimonial from "@/components/Testimonial";
@@ -14,6 +15,7 @@ const Index = () => {
       <Hero />
       <Features />
       <TrustedBy />
+      <CommunityShowcase />
       <Community />
       <Stats />
       <Testimonial />

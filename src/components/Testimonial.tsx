@@ -1,4 +1,5 @@
 import { Quote } from "lucide-react";
+import drewTaylor from "@/assets/drew-taylor.jpg";
 
 const Testimonial = () => {
   return (
@@ -15,7 +16,11 @@ const Testimonial = () => {
               By helping us find the right team member, CoFoundersLab really did help us take our company idea and turn it into a solid business that has the potential to change the world!
             </p>
             <div className="flex items-center gap-4">
-              <div className="w-16 h-16 rounded-full bg-primary/20"></div>
+              <img 
+                src={drewTaylor} 
+                alt="Drew Taylor" 
+                className="w-16 h-16 rounded-full object-cover border-2 border-secondary/40 shadow-lg"
+              />
               <div>
                 <div className="font-bold text-foreground text-lg">Drew Taylor</div>
                 <div className="text-muted-foreground">CoFounder of AstroPrint</div>

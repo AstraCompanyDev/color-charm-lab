@@ -1,5 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { Rocket } from "lucide-react";
+import avatar1 from "@/assets/avatar-1.jpg";
+import avatar2 from "@/assets/avatar-2.jpg";
+import avatar3 from "@/assets/avatar-3.jpg";
+import avatar4 from "@/assets/avatar-4.jpg";
+import avatar5 from "@/assets/avatar-5.jpg";
+import avatar6 from "@/assets/avatar-6.jpg";
 
 const Hero = () => {
   return (
@@ -8,12 +14,38 @@ const Hero = () => {
       <div className="absolute inset-0 bg-gradient-radial opacity-50"></div>
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-secondary/20 via-transparent to-transparent"></div>
       
-      {/* Floating avatars - decorative circles */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-1/4 left-1/4 w-12 h-12 rounded-full bg-card animate-pulse"></div>
-        <div className="absolute top-1/3 right-1/4 w-12 h-12 rounded-full bg-card animate-pulse delay-75"></div>
-        <div className="absolute bottom-1/3 left-1/3 w-12 h-12 rounded-full bg-card animate-pulse delay-150"></div>
-        <div className="absolute bottom-1/4 right-1/3 w-12 h-12 rounded-full bg-card animate-pulse delay-300"></div>
+      {/* Floating avatars with real community member photos */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <img 
+          src={avatar1} 
+          alt="Community member" 
+          className="absolute top-1/4 left-1/4 w-14 h-14 rounded-full object-cover border-2 border-secondary/40 animate-pulse shadow-lg shadow-secondary/20"
+        />
+        <img 
+          src={avatar2} 
+          alt="Community member" 
+          className="absolute top-1/3 right-1/4 w-14 h-14 rounded-full object-cover border-2 border-secondary/40 animate-pulse delay-75 shadow-lg shadow-secondary/20"
+        />
+        <img 
+          src={avatar3} 
+          alt="Community member" 
+          className="absolute bottom-1/3 left-1/3 w-14 h-14 rounded-full object-cover border-2 border-secondary/40 animate-pulse delay-150 shadow-lg shadow-secondary/20"
+        />
+        <img 
+          src={avatar4} 
+          alt="Community member" 
+          className="absolute bottom-1/4 right-1/3 w-14 h-14 rounded-full object-cover border-2 border-secondary/40 animate-pulse delay-300 shadow-lg shadow-secondary/20"
+        />
+        <img 
+          src={avatar5} 
+          alt="Community member" 
+          className="absolute top-1/2 left-1/5 w-14 h-14 rounded-full object-cover border-2 border-secondary/40 animate-pulse delay-200 shadow-lg shadow-secondary/20"
+        />
+        <img 
+          src={avatar6} 
+          alt="Community member" 
+          className="absolute top-2/3 right-1/5 w-14 h-14 rounded-full object-cover border-2 border-secondary/40 animate-pulse delay-500 shadow-lg shadow-secondary/20"
+        />
       </div>
 
       <div className="container mx-auto px-6 relative z-10">
