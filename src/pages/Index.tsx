@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Activity,
   ArrowDownRight,
@@ -20,7 +20,9 @@ import {
   Search,
   Send,
   Settings,
+  Moon,
   Sparkles,
+  Sun,
   Users,
   X,
   Zap,
@@ -29,6 +31,7 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 
 type View = "Dashboard" | "Campaigns" | "Developer API" | "Audiences";
+type Theme = "light" | "dark";
 
 const navItems: { label: View; icon: typeof LayoutDashboard }[] = [
   { label: "Dashboard", icon: LayoutDashboard },
@@ -191,6 +194,15 @@ export default function Index() {
   const [active, setActive] = useState<View>("Dashboard");
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [composerOpen, setComposerOpen] = useState(false);
+  const [theme, setTheme] = useState<Theme>(() => {
+    const savedTheme = window.localStorage.getItem("goood-mail-theme");
+    return savedTheme === "light" ? "light" : "dark";
+  });
+
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark", theme === "dark");
+    window.localStorage.setItem("goood-mail-theme", theme);
+  }, [theme]);
 
   return (
     <div className="flex min-h-screen bg-background">
@@ -200,7 +212,25 @@ export default function Index() {
           <Button variant="ghost" size="icon" className="lg:hidden" onClick={() => setSidebarOpen(true)} aria-label="Open navigation"><Menu /></Button>
           <div className="min-w-0 flex-1"><h1 className="truncate font-heading text-base font-bold sm:text-lg">{active}</h1><p className="hidden text-xs text-muted-foreground sm:block">Welcome back, Myra. Here’s what’s happening today.</p></div>
           <div className="relative hidden max-w-[260px] flex-1 md:block"><Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" /><input className="h-9 w-full rounded-md border bg-card pl-9 pr-3 text-xs outline-none transition-shadow placeholder:text-muted-foreground focus:ring-2 focus:ring-ring" placeholder="Search campaigns, contacts..." aria-label="Search" /></div>
-          <Button variant="ghost" size="icon" aria-label="Notifications"><Bell /></Button>
+          <div className="flex h-9 items-center rounded-md border bg-card p-1" aria-label="Color theme">
+            <Button
+              variant="ghost"
+              size="icon"
+              className={`h-7 w-7 ${theme === "light" ? "bg-muted text-foreground" : "text-muted-foreground"}`}
+              onClick={() => setTheme("light")}
+              aria-label="Use light theme"
+              aria-pressed={theme === "light"}
+            ><Sun className="h-3.5 w-3.5" /></Button>
+            <Button
+              variant="ghost"
+              size="icon"
+              className={`h-7 w-7 ${theme === "dark" ? "bg-primary text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground" : "text-muted-foreground"}`}
+              onClick={() => setTheme("dark")}
+              aria-label="Use dark theme"
+              aria-pressed={theme === "dark"}
+            ><Moon className="h-3.5 w-3.5" /></Button>
+          </div>
+          <Button variant="ghost" size="icon" aria-label="Notifications" className="relative"><Bell /><span className="absolute right-2 top-2 h-1.5 w-1.5 rounded-full bg-primary" /></Button>
           <Button onClick={() => setComposerOpen(true)}><Plus /> <span className="hidden sm:inline">New campaign</span></Button>
         </header>
         <main className="mx-auto max-w-[1500px] p-4 sm:p-6 lg:p-8">
