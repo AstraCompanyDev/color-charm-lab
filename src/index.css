@@ -4,74 +4,74 @@
 
 @layer base {
   :root {
-    --background: 210 40% 98%;
-    --foreground: 215 28% 17%;
+    --background: 216 33% 98%;
+    --foreground: 224 60% 15%;
     --card: 0 0% 100%;
-    --card-foreground: 215 28% 17%;
+    --card-foreground: 224 60% 15%;
     --popover: 0 0% 100%;
     --popover-foreground: 215 28% 17%;
-    --primary: 160 64% 52%;
-    --primary-foreground: 215 28% 13%;
-    --primary-soft: 153 61% 94%;
-    --secondary: 215 16% 47%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 214 32% 95%;
-    --muted-foreground: 215 16% 47%;
-    --accent: 153 61% 94%;
-    --accent-foreground: 160 64% 24%;
+    --primary: 211 100% 59%;
+    --primary-foreground: 0 0% 100%;
+    --primary-soft: 211 100% 96%;
+    --secondary: 211 46% 44%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 216 28% 94%;
+    --muted-foreground: 217 24% 42%;
+    --accent: 211 100% 96%;
+    --accent-foreground: 224 60% 22%;
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
-    --border: 214 24% 90%;
-    --input: 214 24% 90%;
-    --ring: 160 64% 52%;
-    --success: 160 64% 40%;
-    --success-soft: 151 81% 96%;
-    --code: 222 47% 11%;
-    --code-panel: 222 40% 14%;
-    --code-border: 220 25% 22%;
+    --border: 216 24% 88%;
+    --input: 216 24% 88%;
+    --ring: 211 100% 59%;
+    --success: 158 60% 42%;
+    --success-soft: 158 55% 94%;
+    --code: 224 60% 9%;
+    --code-panel: 224 48% 12%;
+    --code-border: 218 30% 21%;
     --code-foreground: 210 40% 98%;
     --code-muted: 215 20% 65%;
-    --code-accent: 226 100% 78%;
-    --sidebar: 215 28% 17%;
+    --code-accent: 211 100% 72%;
+    --sidebar: 224 60% 15%;
     --sidebar-foreground: 210 40% 98%;
-    --sidebar-muted: 215 20% 25%;
-    --sidebar-accent: 160 64% 52%;
+    --sidebar-muted: 218 35% 23%;
+    --sidebar-accent: 211 100% 59%;
     --radius: 0.5rem;
   }
 
   .dark {
-    --background: 222 32% 9%;
+    --background: 225 44% 7%;
     --foreground: 210 24% 96%;
-    --card: 222 27% 12%;
+    --card: 224 38% 10%;
     --card-foreground: 210 24% 96%;
     --popover: 222 27% 12%;
     --popover-foreground: 210 24% 96%;
-    --primary: 160 64% 52%;
-    --primary-foreground: 215 28% 13%;
-    --primary-soft: 158 42% 14%;
-    --secondary: 207 74% 62%;
+    --primary: 211 100% 64%;
+    --primary-foreground: 224 60% 9%;
+    --primary-soft: 214 45% 17%;
+    --secondary: 211 55% 58%;
     --secondary-foreground: 222 32% 9%;
-    --muted: 220 22% 17%;
-    --muted-foreground: 215 15% 65%;
-    --accent: 220 22% 18%;
+    --muted: 220 28% 15%;
+    --muted-foreground: 215 17% 67%;
+    --accent: 214 40% 16%;
     --accent-foreground: 210 24% 96%;
     --destructive: 0 63% 50%;
     --destructive-foreground: 0 0% 100%;
-    --border: 220 20% 21%;
-    --input: 220 20% 23%;
-    --ring: 160 64% 52%;
-    --success: 158 61% 52%;
-    --success-soft: 158 42% 14%;
-    --code: 222 35% 7%;
-    --code-panel: 222 30% 11%;
-    --code-border: 220 21% 20%;
+    --border: 218 29% 20%;
+    --input: 218 29% 22%;
+    --ring: 211 100% 64%;
+    --success: 158 58% 52%;
+    --success-soft: 158 38% 14%;
+    --code: 225 48% 6%;
+    --code-panel: 224 39% 10%;
+    --code-border: 218 29% 19%;
     --code-foreground: 210 24% 96%;
     --code-muted: 215 15% 62%;
-    --code-accent: 226 82% 76%;
-    --sidebar: 215 28% 10%;
-    --sidebar-foreground: 152 45% 91%;
-    --sidebar-muted: 162 45% 17%;
-    --sidebar-accent: 160 64% 52%;
+    --code-accent: 211 100% 72%;
+    --sidebar: 225 48% 7%;
+    --sidebar-foreground: 210 24% 96%;
+    --sidebar-muted: 218 34% 16%;
+    --sidebar-accent: 211 100% 64%;
   }
 }
 
@@ -82,20 +82,20 @@
 
   body {
     @apply bg-background text-foreground;
-    font-family: "Manrope", sans-serif;
+    font-family: "Figtree", sans-serif;
     letter-spacing: 0;
     min-width: 320px;
     transition: background-color 180ms ease, color 180ms ease;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: "Sora", sans-serif;
+    font-family: "Outfit", sans-serif;
     letter-spacing: 0;
   }
 }
 
 @layer utilities {
-  .font-heading { font-family: "Sora", sans-serif; }
+  .font-heading { font-family: "Outfit", sans-serif; }
   .shadow-soft { box-shadow: 0 1px 2px hsl(222 47% 11% / 0.03), 0 6px 18px hsl(222 47% 11% / 0.035); }
   .shadow-brand { box-shadow: 0 6px 16px hsl(var(--primary) / 0.22); }
   .shadow-code { box-shadow: 0 12px 26px hsl(222 47% 11% / 0.14); }
