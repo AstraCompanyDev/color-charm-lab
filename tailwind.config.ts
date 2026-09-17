@@ -23,6 +23,7 @@ export default {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
         },
+        "primary-soft": "hsl(var(--primary-soft))",
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
           foreground: "hsl(var(--secondary-foreground))",
@@ -39,6 +40,14 @@ export default {
           DEFAULT: "hsl(var(--accent))",
           foreground: "hsl(var(--accent-foreground))",
         },
+        success: "hsl(var(--success))",
+        "success-soft": "hsl(var(--success-soft))",
+        code: "hsl(var(--code))",
+        "code-panel": "hsl(var(--code-panel))",
+        "code-border": "hsl(var(--code-border))",
+        "code-foreground": "hsl(var(--code-foreground))",
+        "code-muted": "hsl(var(--code-muted))",
+        "code-accent": "hsl(var(--code-accent))",
         popover: {
           DEFAULT: "hsl(var(--popover))",
           foreground: "hsl(var(--popover-foreground))",
@@ -47,13 +56,6 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        "brand-purple": "hsl(var(--brand-purple))",
-        "brand-rose": "hsl(var(--brand-rose))",
-        "brand-blue": "hsl(var(--brand-blue))",
-      },
-      backgroundImage: {
-        'gradient-coral': 'linear-gradient(135deg, hsl(var(--gradient-start)), hsl(var(--gradient-middle)), hsl(var(--gradient-end)))',
-        'gradient-radial': 'radial-gradient(circle at center, rgba(59, 130, 246, 0.1) 0%, transparent 70%)',
       },
       borderRadius: {
         lg: "var(--radius)",
