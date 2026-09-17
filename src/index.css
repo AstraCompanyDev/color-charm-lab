@@ -2,49 +2,37 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
-
 @layer base {
   :root {
-    --background: 0 0% 100%;
+    --background: 210 40% 98%;
     --foreground: 222 47% 11%;
-
-    --card: 222 47% 15%;
-    --card-foreground: 0 0% 100%;
-
-    --popover: 222 47% 15%;
-    --popover-foreground: 0 0% 100%;
-
-    --primary: 6 78% 57%;
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+    --primary: 245 89% 64%;
     --primary-foreground: 0 0% 100%;
-
-    --secondary: 217 91% 60%;
-    --secondary-foreground: 0 0% 100%;
-
-    --muted: 222 47% 20%;
-    --muted-foreground: 215 16% 65%;
-
-    --accent: 340 82% 52%;
-    --accent-foreground: 0 0% 100%;
-
+    --primary-soft: 245 89% 97%;
+    --secondary: 226 100% 78%;
+    --secondary-foreground: 222 47% 11%;
+    --muted: 214 32% 95%;
+    --muted-foreground: 215 16% 47%;
+    --accent: 245 89% 96%;
+    --accent-foreground: 245 89% 54%;
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
-
-    --border: 222 47% 20%;
-    --input: 222 47% 20%;
-    --ring: 6 78% 57%;
-
-    --radius: 0.75rem;
-
-    --gradient-start: 6 78% 57%;
-    --gradient-middle: 340 82% 52%;
-    --gradient-end: 280 67% 62%;
-    
-    --brand-purple: 337 30% 22%;
-    --brand-rose: 8 21% 53%;
-    --brand-blue: 213 45% 44%;
+    --border: 214 24% 90%;
+    --input: 214 24% 90%;
+    --ring: 245 89% 64%;
+    --success: 158 64% 40%;
+    --success-soft: 151 81% 96%;
+    --code: 222 47% 11%;
+    --code-panel: 222 40% 14%;
+    --code-border: 220 25% 22%;
+    --code-foreground: 210 40% 98%;
+    --code-muted: 215 20% 65%;
+    --code-accent: 226 100% 78%;
+    --radius: 0.5rem;
   }
 }
 
@@ -55,5 +43,30 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
+    font-family: "Manrope", sans-serif;
+    letter-spacing: 0;
+    min-width: 320px;
   }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: "Sora", sans-serif;
+    letter-spacing: 0;
+  }
+}
+
+@layer utilities {
+  .font-heading { font-family: "Sora", sans-serif; }
+  .shadow-soft { box-shadow: 0 1px 2px hsl(222 47% 11% / 0.03), 0 6px 18px hsl(222 47% 11% / 0.035); }
+  .shadow-brand { box-shadow: 0 6px 16px hsl(var(--primary) / 0.22); }
+  .shadow-code { box-shadow: 0 12px 26px hsl(222 47% 11% / 0.14); }
+  .shadow-modal { box-shadow: 0 24px 70px hsl(222 47% 11% / 0.2); }
+  .bg-grid {
+    background-color: hsl(var(--card));
+    background-image: linear-gradient(hsl(var(--border) / .65) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--border) / .65) 1px, transparent 1px);
+    background-size: 100% 42px, 72px 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
 }
