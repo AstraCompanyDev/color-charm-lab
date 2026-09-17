@@ -48,6 +48,12 @@ export default {
         "code-foreground": "hsl(var(--code-foreground))",
         "code-muted": "hsl(var(--code-muted))",
         "code-accent": "hsl(var(--code-accent))",
+        sidebar: {
+          DEFAULT: "hsl(var(--sidebar))",
+          foreground: "hsl(var(--sidebar-foreground))",
+          muted: "hsl(var(--sidebar-muted))",
+          accent: "hsl(var(--sidebar-accent))",
+        },
         popover: {
           DEFAULT: "hsl(var(--popover))",
           foreground: "hsl(var(--popover-foreground))",

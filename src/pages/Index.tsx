@@ -7,6 +7,7 @@ import {
   BookOpen,
   Check,
   ChevronDown,
+  Clock3,
   Code2,
   Copy,
   FileText,
@@ -16,6 +17,7 @@ import {
   Mail,
   Menu,
   MoreHorizontal,
+  MoveRight,
   Plus,
   Search,
   Send,
@@ -63,12 +65,12 @@ const logs = [
 function Brand() {
   return (
     <div className="flex items-center gap-3">
-      <div className="grid h-9 w-9 place-items-center rounded-lg bg-primary text-primary-foreground shadow-brand">
+      <div className="grid h-9 w-9 place-items-center rounded-lg bg-sidebar-accent text-primary-foreground shadow-brand">
         <Mail className="h-[18px] w-[18px]" strokeWidth={2.25} />
       </div>
       <div className="leading-none">
-        <p className="font-heading text-[15px] font-bold text-foreground">Goood Mail</p>
-        <p className="mt-1 text-[10px] font-semibold uppercase text-muted-foreground">Email infrastructure</p>
+        <p className="font-heading text-[15px] font-bold text-sidebar-foreground">Goood Mail</p>
+        <p className="mt-1 text-[10px] font-semibold uppercase text-sidebar-foreground/60">Email infrastructure</p>
       </div>
     </div>
   );
@@ -78,42 +80,42 @@ function Sidebar({ active, setActive, open, close }: { active: View; setActive: 
   return (
     <>
       {open && <div className="fixed inset-0 z-40 bg-foreground/25 lg:hidden" onClick={close} aria-hidden="true" />}
-      <aside className={`fixed inset-y-0 left-0 z-50 flex w-[250px] flex-col border-r bg-card transition-transform duration-200 lg:static lg:translate-x-0 ${open ? "translate-x-0" : "-translate-x-full"}`}>
+      <aside className={`fixed inset-y-0 left-0 z-50 flex w-[250px] flex-col border-r border-sidebar-muted bg-sidebar text-sidebar-foreground transition-transform duration-200 lg:static lg:translate-x-0 ${open ? "translate-x-0" : "-translate-x-full"}`}>
         <div className="flex h-[72px] items-center justify-between border-b px-5">
           <Brand />
-          <Button variant="ghost" size="icon" className="lg:hidden" onClick={close} aria-label="Close navigation"><X /></Button>
+          <Button variant="ghost" size="icon" className="text-sidebar-foreground hover:bg-sidebar-muted hover:text-sidebar-foreground lg:hidden" onClick={close} aria-label="Close navigation"><X /></Button>
         </div>
         <nav className="flex-1 px-3 py-5" aria-label="Primary navigation">
-          <p className="mb-2 px-3 text-[10px] font-bold uppercase text-muted-foreground">Workspace</p>
+          <p className="mb-2 px-3 text-[10px] font-bold uppercase text-sidebar-foreground/50">Workspace</p>
           <div className="space-y-1">
             {navItems.map(({ label, icon: Icon }) => (
               <Button
                 key={label}
                 variant="ghost"
                 onClick={() => { setActive(label); close(); }}
-                className={`w-full justify-start px-3 ${active === label ? "bg-primary-soft text-primary hover:bg-primary-soft hover:text-primary" : "text-muted-foreground hover:text-foreground"}`}
+                className={`w-full justify-start px-3 ${active === label ? "bg-sidebar-muted text-sidebar-accent hover:bg-sidebar-muted hover:text-sidebar-accent" : "text-sidebar-foreground/70 hover:bg-sidebar-muted hover:text-sidebar-foreground"}`}
               >
                 <Icon />
                 {label}
               </Button>
             ))}
           </div>
-          <p className="mb-2 mt-8 px-3 text-[10px] font-bold uppercase text-muted-foreground">Manage</p>
+          <p className="mb-2 mt-8 px-3 text-[10px] font-bold uppercase text-sidebar-foreground/50">Manage</p>
           <div className="space-y-1">
-            <Button variant="ghost" className="w-full justify-start px-3 text-muted-foreground hover:text-foreground"><FileText /> Templates</Button>
-            <Button variant="ghost" className="w-full justify-start px-3 text-muted-foreground hover:text-foreground"><Settings /> Settings</Button>
+            <Button variant="ghost" className="w-full justify-start px-3 text-sidebar-foreground/70 hover:bg-sidebar-muted hover:text-sidebar-foreground"><FileText /> Templates</Button>
+            <Button variant="ghost" className="w-full justify-start px-3 text-sidebar-foreground/70 hover:bg-sidebar-muted hover:text-sidebar-foreground"><Settings /> Settings</Button>
           </div>
         </nav>
-        <div className="m-3 rounded-lg border bg-primary-soft p-4">
-          <div className="flex items-center justify-between text-xs font-bold text-primary"><span>API usage</span><span>72%</span></div>
-          <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-primary/15"><div className="h-full w-[72%] rounded-full bg-primary" /></div>
-          <p className="mt-2.5 text-[11px] text-muted-foreground">7,240 of 10,000 requests</p>
-          <Button variant="link" className="mt-1 h-auto p-0 text-xs">Upgrade plan <ArrowUpRight /></Button>
+        <div className="m-3 rounded-lg border border-sidebar-muted bg-sidebar-muted/70 p-4">
+          <div className="flex items-center justify-between text-xs font-bold text-sidebar-accent"><span>API usage</span><span>72%</span></div>
+          <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-sidebar-foreground/15"><div className="h-full w-[72%] rounded-full bg-sidebar-accent" /></div>
+          <p className="mt-2.5 text-[11px] text-sidebar-foreground/60">7,240 of 10,000 requests</p>
+          <Button variant="link" className="mt-1 h-auto p-0 text-xs text-sidebar-accent">Upgrade plan <ArrowUpRight /></Button>
         </div>
-        <div className="flex items-center gap-3 border-t p-4">
-          <div className="grid h-9 w-9 place-items-center rounded-full bg-secondary font-heading text-xs font-bold text-secondary-foreground">MR</div>
-          <div className="min-w-0 flex-1"><p className="truncate text-xs font-bold">Myra Rose</p><p className="truncate text-[11px] text-muted-foreground">Workspace owner</p></div>
-          <ChevronDown className="h-4 w-4 text-muted-foreground" />
+        <div className="flex items-center gap-3 border-t border-sidebar-muted p-4">
+          <div className="grid h-9 w-9 place-items-center rounded-full bg-sidebar-accent font-heading text-xs font-bold text-primary-foreground">MR</div>
+          <div className="min-w-0 flex-1"><p className="truncate text-xs font-bold">Myra Rose</p><p className="truncate text-[11px] text-sidebar-foreground/55">Workspace owner</p></div>
+          <ChevronDown className="h-4 w-4 text-sidebar-foreground/55" />
         </div>
       </aside>
     </>
@@ -121,22 +123,39 @@ function Sidebar({ active, setActive, open, close }: { active: View; setActive: 
 }
 
 function Dashboard() {
+  const overviewMetrics = [
+    { label: "Contacts", value: "48,291", change: "+8.4% this month", icon: Users },
+    { label: "Emails sent", value: "124,892", change: "+12.5% this month", icon: Send },
+    { label: "API requests", value: "7,240", change: "99.98% successful", icon: Code2 },
+    { label: "Open rate", value: "42.3%", change: "+2.1% this month", icon: Activity },
+  ];
+
+  const workflow = [
+    { label: "New contact", icon: Users },
+    { label: "Send welcome", icon: Mail },
+    { label: "Wait 1 day", icon: Clock3 },
+    { label: "Send follow-up", icon: Send },
+  ];
+
   return (
     <div className="space-y-6">
       <section className="grid grid-cols-2 gap-3 xl:grid-cols-4">
-        {metrics.map(({ label, value, change, up, icon: Icon }) => (
+        {overviewMetrics.map(({ label, value, change, icon: Icon }) => (
           <article key={label} className="rounded-lg border bg-card p-4 shadow-soft sm:p-5">
-            <div className="flex items-start justify-between"><p className="text-xs font-semibold text-muted-foreground sm:text-sm">{label}</p><div className="grid h-8 w-8 place-items-center rounded-md bg-muted text-muted-foreground"><Icon className="h-4 w-4" /></div></div>
+            <div className="flex items-center gap-3">
+              <div className="grid h-9 w-9 place-items-center rounded-md bg-primary-soft text-primary"><Icon className="h-4 w-4" /></div>
+              <p className="text-xs font-semibold text-muted-foreground sm:text-sm">{label}</p>
+            </div>
             <p className="mt-4 font-heading text-2xl font-bold text-foreground sm:text-[28px]">{value}</p>
-            <p className={`mt-2 flex items-center gap-1 text-xs font-bold ${up ? "text-success" : "text-primary"}`}>{up ? <ArrowUpRight className="h-3.5 w-3.5" /> : <ArrowDownRight className="h-3.5 w-3.5" />}{change}<span className="font-medium text-muted-foreground">vs last month</span></p>
+            <p className="mt-2 flex items-center gap-1 text-xs font-bold text-success"><ArrowUpRight className="h-3.5 w-3.5" />{change}</p>
           </article>
         ))}
       </section>
 
-      <section className="grid gap-5 xl:grid-cols-[minmax(0,1.6fr)_minmax(290px,0.7fr)]">
+      <section className="grid gap-5 xl:grid-cols-[minmax(0,1.65fr)_minmax(280px,0.75fr)]">
         <article className="rounded-lg border bg-card shadow-soft">
           <div className="flex flex-wrap items-center justify-between gap-3 border-b p-5">
-            <div><h2 className="font-heading text-base font-bold">Performance overview</h2><p className="mt-1 text-xs text-muted-foreground">Email delivery activity over the last 30 days</p></div>
+            <div><h2 className="font-heading text-base font-bold">Email performance</h2><p className="mt-1 text-xs text-muted-foreground">Delivered and opened messages over the last 30 days</p></div>
             <Button variant="outline" size="sm">Last 30 days <ChevronDown /></Button>
           </div>
           <div className="p-5">
@@ -152,25 +171,36 @@ function Dashboard() {
           </div>
         </article>
 
-        <article className="overflow-hidden rounded-lg bg-code text-code-foreground shadow-code">
-          <div className="flex items-center justify-between border-b border-code-border px-5 py-4"><div className="flex items-center gap-2"><Zap className="h-4 w-4 text-secondary" /><h2 className="font-heading text-sm font-bold">API quickstart</h2></div><span className="flex items-center gap-1.5 text-[10px] text-code-muted"><i className="h-1.5 w-1.5 rounded-full bg-success" />All systems operational</span></div>
-          <div className="p-5">
-            <p className="text-xs leading-5 text-code-muted">Send your first email with one API request.</p>
-            <pre className="mt-4 overflow-x-auto rounded-md border border-code-border bg-code-panel p-4 font-mono text-[11px] leading-6"><code><span className="text-secondary">curl</span> -X POST \\{`\n`}  https://api.gooodmail.com/v1/send \\{`\n`}  -H <span className="text-code-accent">&quot;Authorization: Bearer gm_...&quot;</span> \\{`\n`}  -d <span className="text-code-accent">'&#123;&quot;to&quot;:&quot;hello@example.com&quot;&#125;'</span></code></pre>
-            <div className="mt-4 flex gap-2"><Button size="sm" onClick={() => toast.success("Test email queued successfully")}><Send /> Send test</Button><Button size="sm" variant="outlineDark"><BookOpen /> Read docs</Button></div>
+        <article className="rounded-lg border bg-card p-5 shadow-soft">
+          <div className="flex items-center justify-between"><div><h2 className="font-heading text-base font-bold">Top countries</h2><p className="mt-1 text-xs text-muted-foreground">Audience distribution</p></div><Users className="h-4 w-4 text-muted-foreground" /></div>
+          <div className="mt-7 flex items-center justify-center gap-7">
+            <div className="relative h-28 w-28 shrink-0">
+              <svg viewBox="0 0 42 42" className="h-full w-full -rotate-90" role="img" aria-label="Audience by country">
+                <circle cx="21" cy="21" r="15.9" fill="none" stroke="hsl(var(--muted))" strokeWidth="6" />
+                <circle cx="21" cy="21" r="15.9" fill="none" stroke="hsl(var(--primary))" strokeWidth="6" strokeDasharray="45 55" />
+                <circle cx="21" cy="21" r="15.9" fill="none" stroke="hsl(var(--secondary))" strokeWidth="6" strokeDasharray="24 76" strokeDashoffset="-45" />
+              </svg>
+              <div className="absolute inset-0 grid place-items-center text-center"><span className="font-heading text-lg font-bold">48k</span></div>
+            </div>
+            <div className="min-w-[110px] space-y-3 text-xs">
+              {[{n:"United States",v:"45%",c:"bg-primary"},{n:"United Kingdom",v:"24%",c:"bg-secondary"},{n:"Canada",v:"15%",c:"bg-muted-foreground"},{n:"Other",v:"16%",c:"bg-muted"}].map((item) => <div key={item.n} className="flex items-center justify-between gap-3"><span className="flex items-center gap-2 text-muted-foreground"><i className={`h-2 w-2 rounded-full ${item.c}`} />{item.n}</span><b>{item.v}</b></div>)}
+            </div>
           </div>
         </article>
       </section>
 
-      <section className="overflow-hidden rounded-lg border bg-card shadow-soft">
-        <div className="flex items-center justify-between border-b p-5"><div><h2 className="font-heading text-base font-bold">Recent campaigns</h2><p className="mt-1 text-xs text-muted-foreground">Your latest broadcasts and automated sequences</p></div><Button variant="ghost" size="sm">View all <ArrowUpRight /></Button></div>
-        <div className="overflow-x-auto">
-          <table className="w-full min-w-[720px] text-left text-sm">
-            <thead className="bg-muted/60 text-[10px] font-bold uppercase text-muted-foreground"><tr><th className="px-5 py-3">Campaign</th><th className="px-5 py-3">Status</th><th className="px-5 py-3">Delivered</th><th className="px-5 py-3">Engagement</th><th className="px-5 py-3">Date</th><th className="w-12 px-5 py-3"><span className="sr-only">Actions</span></th></tr></thead>
-            <tbody className="divide-y">
-              {campaigns.map((campaign) => <tr key={campaign.name} className="transition-colors hover:bg-muted/40"><td className="px-5 py-4"><p className="font-semibold">{campaign.name}</p><p className="mt-1 text-xs text-muted-foreground">{campaign.type}</p></td><td className="px-5 py-4"><span className={`inline-flex items-center gap-1.5 rounded-full px-2 py-1 text-[10px] font-bold ${campaign.status === "Sending" ? "bg-success-soft text-success" : campaign.status === "Scheduled" ? "bg-primary-soft text-primary" : "bg-muted text-muted-foreground"}`}><i className="h-1.5 w-1.5 rounded-full bg-current" />{campaign.status}</span></td><td className="px-5 py-4 font-semibold">{campaign.sent}</td><td className="px-5 py-4"><span className="font-semibold">{campaign.open}</span><span className="ml-3 text-muted-foreground">{campaign.click}</span></td><td className="px-5 py-4 text-muted-foreground">{campaign.date}</td><td className="px-5 py-4"><Button size="icon" variant="ghost" aria-label={`More options for ${campaign.name}`}><MoreHorizontal /></Button></td></tr>)}
-            </tbody>
-          </table>
+      <section className="rounded-lg border bg-card p-5 shadow-soft">
+        <div className="flex items-center justify-between"><div><h2 className="font-heading text-base font-bold">Automation workflow</h2><p className="mt-1 text-xs text-muted-foreground">Welcome sequence · Active</p></div><Button variant="ghost" size="sm">Manage workflow <ArrowUpRight /></Button></div>
+        <div className="mt-7 grid grid-cols-2 gap-4 sm:flex sm:items-center sm:justify-center">
+          {workflow.map(({ label, icon: Icon }, index) => (
+            <div key={label} className="contents">
+              <div className="flex min-w-[110px] flex-col items-center gap-2 text-center">
+                <div className="grid h-12 w-12 place-items-center rounded-full border border-primary/20 bg-primary-soft text-primary"><Icon className="h-5 w-5" /></div>
+                <span className="text-xs font-bold text-muted-foreground">{label}</span>
+              </div>
+              {index < workflow.length - 1 && <MoveRight className="hidden h-5 w-8 shrink-0 text-border sm:block" />}
+            </div>
+          ))}
         </div>
       </section>
     </div>
