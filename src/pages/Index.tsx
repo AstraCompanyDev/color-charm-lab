@@ -7,6 +7,7 @@ import {
   BookOpen,
   Check,
   ChevronDown,
+  Clock3,
   Code2,
   Copy,
   FileText,
@@ -16,6 +17,7 @@ import {
   Mail,
   Menu,
   MoreHorizontal,
+  MoveRight,
   Plus,
   Search,
   Send,
@@ -63,12 +65,12 @@ const logs = [
 function Brand() {
   return (
     <div className="flex items-center gap-3">
-      <div className="grid h-9 w-9 place-items-center rounded-lg bg-primary text-primary-foreground shadow-brand">
+      <div className="grid h-9 w-9 place-items-center rounded-lg bg-sidebar-accent text-primary-foreground shadow-brand">
         <Mail className="h-[18px] w-[18px]" strokeWidth={2.25} />
       </div>
       <div className="leading-none">
-        <p className="font-heading text-[15px] font-bold text-foreground">Goood Mail</p>
-        <p className="mt-1 text-[10px] font-semibold uppercase text-muted-foreground">Email infrastructure</p>
+        <p className="font-heading text-[15px] font-bold text-sidebar-foreground">Goood Mail</p>
+        <p className="mt-1 text-[10px] font-semibold uppercase text-sidebar-foreground/60">Email infrastructure</p>
       </div>
     </div>
   );
@@ -78,42 +80,42 @@ function Sidebar({ active, setActive, open, close }: { active: View; setActive: 
   return (
     <>
       {open && <div className="fixed inset-0 z-40 bg-foreground/25 lg:hidden" onClick={close} aria-hidden="true" />}
-      <aside className={`fixed inset-y-0 left-0 z-50 flex w-[250px] flex-col border-r bg-card transition-transform duration-200 lg:static lg:translate-x-0 ${open ? "translate-x-0" : "-translate-x-full"}`}>
+      <aside className={`fixed inset-y-0 left-0 z-50 flex w-[250px] flex-col border-r border-sidebar-muted bg-sidebar text-sidebar-foreground transition-transform duration-200 lg:static lg:translate-x-0 ${open ? "translate-x-0" : "-translate-x-full"}`}>
         <div className="flex h-[72px] items-center justify-between border-b px-5">
           <Brand />
-          <Button variant="ghost" size="icon" className="lg:hidden" onClick={close} aria-label="Close navigation"><X /></Button>
+          <Button variant="ghost" size="icon" className="text-sidebar-foreground hover:bg-sidebar-muted hover:text-sidebar-foreground lg:hidden" onClick={close} aria-label="Close navigation"><X /></Button>
         </div>
         <nav className="flex-1 px-3 py-5" aria-label="Primary navigation">
-          <p className="mb-2 px-3 text-[10px] font-bold uppercase text-muted-foreground">Workspace</p>
+          <p className="mb-2 px-3 text-[10px] font-bold uppercase text-sidebar-foreground/50">Workspace</p>
           <div className="space-y-1">
             {navItems.map(({ label, icon: Icon }) => (
               <Button
                 key={label}
                 variant="ghost"
                 onClick={() => { setActive(label); close(); }}
-                className={`w-full justify-start px-3 ${active === label ? "bg-primary-soft text-primary hover:bg-primary-soft hover:text-primary" : "text-muted-foreground hover:text-foreground"}`}
+                className={`w-full justify-start px-3 ${active === label ? "bg-sidebar-muted text-sidebar-accent hover:bg-sidebar-muted hover:text-sidebar-accent" : "text-sidebar-foreground/70 hover:bg-sidebar-muted hover:text-sidebar-foreground"}`}
               >
                 <Icon />
                 {label}
               </Button>
             ))}
           </div>
-          <p className="mb-2 mt-8 px-3 text-[10px] font-bold uppercase text-muted-foreground">Manage</p>
+          <p className="mb-2 mt-8 px-3 text-[10px] font-bold uppercase text-sidebar-foreground/50">Manage</p>
           <div className="space-y-1">
-            <Button variant="ghost" className="w-full justify-start px-3 text-muted-foreground hover:text-foreground"><FileText /> Templates</Button>
-            <Button variant="ghost" className="w-full justify-start px-3 text-muted-foreground hover:text-foreground"><Settings /> Settings</Button>
+            <Button variant="ghost" className="w-full justify-start px-3 text-sidebar-foreground/70 hover:bg-sidebar-muted hover:text-sidebar-foreground"><FileText /> Templates</Button>
+            <Button variant="ghost" className="w-full justify-start px-3 text-sidebar-foreground/70 hover:bg-sidebar-muted hover:text-sidebar-foreground"><Settings /> Settings</Button>
           </div>
         </nav>
-        <div className="m-3 rounded-lg border bg-primary-soft p-4">
-          <div className="flex items-center justify-between text-xs font-bold text-primary"><span>API usage</span><span>72%</span></div>
-          <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-primary/15"><div className="h-full w-[72%] rounded-full bg-primary" /></div>
-          <p className="mt-2.5 text-[11px] text-muted-foreground">7,240 of 10,000 requests</p>
-          <Button variant="link" className="mt-1 h-auto p-0 text-xs">Upgrade plan <ArrowUpRight /></Button>
+        <div className="m-3 rounded-lg border border-sidebar-muted bg-sidebar-muted/70 p-4">
+          <div className="flex items-center justify-between text-xs font-bold text-sidebar-accent"><span>API usage</span><span>72%</span></div>
+          <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-sidebar-foreground/15"><div className="h-full w-[72%] rounded-full bg-sidebar-accent" /></div>
+          <p className="mt-2.5 text-[11px] text-sidebar-foreground/60">7,240 of 10,000 requests</p>
+          <Button variant="link" className="mt-1 h-auto p-0 text-xs text-sidebar-accent">Upgrade plan <ArrowUpRight /></Button>
         </div>
-        <div className="flex items-center gap-3 border-t p-4">
-          <div className="grid h-9 w-9 place-items-center rounded-full bg-secondary font-heading text-xs font-bold text-secondary-foreground">MR</div>
-          <div className="min-w-0 flex-1"><p className="truncate text-xs font-bold">Myra Rose</p><p className="truncate text-[11px] text-muted-foreground">Workspace owner</p></div>
-          <ChevronDown className="h-4 w-4 text-muted-foreground" />
+        <div className="flex items-center gap-3 border-t border-sidebar-muted p-4">
+          <div className="grid h-9 w-9 place-items-center rounded-full bg-sidebar-accent font-heading text-xs font-bold text-primary-foreground">MR</div>
+          <div className="min-w-0 flex-1"><p className="truncate text-xs font-bold">Myra Rose</p><p className="truncate text-[11px] text-sidebar-foreground/55">Workspace owner</p></div>
+          <ChevronDown className="h-4 w-4 text-sidebar-foreground/55" />
         </div>
       </aside>
     </>
