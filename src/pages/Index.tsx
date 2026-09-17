@@ -1,233 +1,124 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import {
   Activity,
-  ArrowDownRight,
-  ArrowUpRight,
-  Bell,
-  BookOpen,
+  ArrowRight,
+  BarChart3,
   Check,
-  ChevronDown,
-  Clock3,
+  ChevronRight,
   Code2,
-  Copy,
-  FileText,
-  Gauge,
-  KeyRound,
-  LayoutDashboard,
+  Globe2,
   Mail,
   Menu,
-  MoreHorizontal,
-  MoveRight,
-  Plus,
-  Search,
-  Send,
-  Settings,
   Moon,
-  Sparkles,
+  Send,
+  ShieldCheck,
   Sun,
   Users,
+  Workflow,
   X,
   Zap,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { toast } from "sonner";
 
-type View = "Dashboard" | "Campaigns" | "Developer API" | "Audiences";
 type Theme = "light" | "dark";
 
-const navItems: { label: View; icon: typeof LayoutDashboard }[] = [
-  { label: "Dashboard", icon: LayoutDashboard },
-  { label: "Campaigns", icon: Send },
-  { label: "Developer API", icon: Code2 },
-  { label: "Audiences", icon: Users },
-];
-
-const metrics = [
-  { label: "Emails sent", value: "124,892", change: "+12.5%", up: true, icon: Send },
-  { label: "Open rate", value: "42.3%", change: "+2.1%", up: true, icon: Mail },
-  { label: "Click rate", value: "8.74%", change: "+0.8%", up: true, icon: Activity },
-  { label: "Unsubscribed", value: "0.18%", change: "-0.04%", up: false, icon: Users },
-];
-
-const campaigns = [
-  { name: "Welcome Series A/B", type: "Automated sequence", status: "Sending", open: "48.2%", click: "12.9%", sent: "34,820", date: "Sep 16, 2026" },
-  { name: "September Product Update", type: "Product newsletter", status: "Scheduled", open: "—", click: "—", sent: "18,240", date: "Sep 19, 2026" },
-  { name: "Trial Expiry Reminder", type: "Lifecycle email", status: "Completed", open: "51.7%", click: "9.4%", sent: "8,416", date: "Sep 14, 2026" },
-];
-
-const logs = [
-  { method: "POST", path: "/v1/email/send", status: "200", time: "38 ms", when: "8s ago" },
-  { method: "POST", path: "/v1/email/send", status: "200", time: "42 ms", when: "24s ago" },
-  { method: "GET", path: "/v1/domains", status: "200", time: "31 ms", when: "1m ago" },
-  { method: "POST", path: "/v1/email/send", status: "202", time: "45 ms", when: "2m ago" },
+const capabilities = [
+  {
+    icon: Send,
+    label: "Campaigns",
+    title: "Create campaigns people want to read",
+    copy: "Build focused email experiences, segment audiences, and schedule every send from one clear workspace.",
+    stat: "42.3%",
+    statLabel: "average open rate",
+  },
+  {
+    icon: Code2,
+    label: "Developer API",
+    title: "Transactional email, ready in minutes",
+    copy: "Send account alerts, receipts, and product messages through a reliable API with useful logs and straightforward keys.",
+    stat: "42 ms",
+    statLabel: "median response time",
+  },
+  {
+    icon: Workflow,
+    label: "Automation",
+    title: "Turn customer moments into journeys",
+    copy: "Connect triggers, delays, and messages in repeatable workflows that keep every customer conversation moving.",
+    stat: "99.98%",
+    statLabel: "successful requests",
+  },
 ];
 
 function Brand() {
   return (
-    <div className="flex items-center gap-3">
-      <div className="grid h-9 w-9 place-items-center rounded-lg bg-sidebar-accent text-primary-foreground shadow-brand">
-        <Mail className="h-[18px] w-[18px]" strokeWidth={2.25} />
-      </div>
-      <div className="leading-none">
-        <p className="font-heading text-[15px] font-bold text-sidebar-foreground">Goood Mail</p>
-        <p className="mt-1 text-[10px] font-semibold uppercase text-sidebar-foreground/60">Email infrastructure</p>
-      </div>
+    <Link to="/" className="flex items-center gap-3" aria-label="Goood Mail home">
+      <span className="grid h-9 w-9 place-items-center rounded-md bg-primary text-primary-foreground shadow-brand">
+        <Mail className="h-[18px] w-[18px]" strokeWidth={2.3} />
+      </span>
+      <span className="font-heading text-base font-bold text-foreground">Goood Mail</span>
+    </Link>
+  );
+}
+
+function ThemeControl({ theme, setTheme }: { theme: Theme; setTheme: (theme: Theme) => void }) {
+  return (
+    <div className="flex h-9 items-center rounded-md border bg-card p-1" aria-label="Color theme">
+      <Button variant="ghost" size="icon" className={`h-7 w-7 ${theme === "light" ? "bg-muted text-foreground" : "text-muted-foreground"}`} onClick={() => setTheme("light")} aria-label="Use light theme" aria-pressed={theme === "light"}>
+        <Sun className="h-3.5 w-3.5" />
+      </Button>
+      <Button variant="ghost" size="icon" className={`h-7 w-7 ${theme === "dark" ? "bg-primary text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground" : "text-muted-foreground"}`} onClick={() => setTheme("dark")} aria-label="Use dark theme" aria-pressed={theme === "dark"}>
+        <Moon className="h-3.5 w-3.5" />
+      </Button>
     </div>
   );
 }
 
-function Sidebar({ active, setActive, open, close }: { active: View; setActive: (view: View) => void; open: boolean; close: () => void }) {
+function ProductPreview() {
+  const bars = [40, 58, 48, 72, 61, 84, 75, 92, 80, 96, 88, 100];
   return (
-    <>
-      {open && <div className="fixed inset-0 z-40 bg-foreground/25 lg:hidden" onClick={close} aria-hidden="true" />}
-      <aside className={`fixed inset-y-0 left-0 z-50 flex w-[250px] flex-col border-r border-sidebar-muted bg-sidebar text-sidebar-foreground transition-transform duration-200 lg:static lg:translate-x-0 ${open ? "translate-x-0" : "-translate-x-full"}`}>
-        <div className="flex h-[72px] items-center justify-between border-b px-5">
-          <Brand />
-          <Button variant="ghost" size="icon" className="text-sidebar-foreground hover:bg-sidebar-muted hover:text-sidebar-foreground lg:hidden" onClick={close} aria-label="Close navigation"><X /></Button>
+    <div className="relative mx-auto w-full max-w-[650px] lg:ml-auto">
+      <div className="absolute -left-5 top-12 hidden w-44 rounded-md border bg-card p-4 shadow-modal xl:block">
+        <div className="flex items-center gap-2 text-xs font-bold"><span className="grid h-7 w-7 place-items-center rounded-md bg-primary-soft text-primary"><Send className="h-3.5 w-3.5" /></span>Campaign sent</div>
+        <p className="mt-3 font-heading text-xl font-bold">24,860</p>
+        <p className="mt-1 text-[11px] text-muted-foreground">Delivered in 4m 12s</p>
+      </div>
+      <div className="overflow-hidden rounded-lg border bg-card shadow-modal">
+        <div className="flex h-12 items-center justify-between border-b px-4">
+          <div className="flex items-center gap-2"><span className="h-2 w-2 rounded-full bg-primary" /><span className="text-xs font-bold">Campaign overview</span></div>
+          <span className="rounded-full bg-primary-soft px-2 py-1 text-[10px] font-bold text-primary">LIVE</span>
         </div>
-        <nav className="flex-1 px-3 py-5" aria-label="Primary navigation">
-          <p className="mb-2 px-3 text-[10px] font-bold uppercase text-sidebar-foreground/50">Workspace</p>
-          <div className="space-y-1">
-            {navItems.map(({ label, icon: Icon }) => (
-              <Button
-                key={label}
-                variant="ghost"
-                onClick={() => { setActive(label); close(); }}
-                className={`w-full justify-start px-3 ${active === label ? "bg-sidebar-muted text-sidebar-accent hover:bg-sidebar-muted hover:text-sidebar-accent" : "text-sidebar-foreground/70 hover:bg-sidebar-muted hover:text-sidebar-foreground"}`}
-              >
-                <Icon />
-                {label}
-              </Button>
-            ))}
+        <div className="grid min-h-[390px] grid-cols-[64px_1fr] sm:grid-cols-[150px_1fr]">
+          <div className="border-r bg-foreground p-3 text-background dark:bg-muted">
+            <div className="mb-6 flex items-center gap-2 px-1"><Mail className="h-4 w-4 text-primary" /><span className="hidden text-xs font-bold sm:inline">Workspace</span></div>
+            {[BarChart3, Send, Users, Code2].map((Icon, index) => <div key={index} className={`mb-2 flex h-9 items-center gap-2 rounded-md px-2 ${index === 0 ? "bg-primary text-primary-foreground" : "text-background/65 dark:text-muted-foreground"}`}><Icon className="h-4 w-4" /><span className="hidden text-[11px] font-semibold sm:inline">{["Overview", "Campaigns", "Audiences", "API"][index]}</span></div>)}
           </div>
-          <p className="mb-2 mt-8 px-3 text-[10px] font-bold uppercase text-sidebar-foreground/50">Manage</p>
-          <div className="space-y-1">
-            <Button variant="ghost" className="w-full justify-start px-3 text-sidebar-foreground/70 hover:bg-sidebar-muted hover:text-sidebar-foreground"><FileText /> Templates</Button>
-            <Button variant="ghost" className="w-full justify-start px-3 text-sidebar-foreground/70 hover:bg-sidebar-muted hover:text-sidebar-foreground"><Settings /> Settings</Button>
-          </div>
-        </nav>
-        <div className="m-3 rounded-lg border border-sidebar-muted bg-sidebar-muted/70 p-4">
-          <div className="flex items-center justify-between text-xs font-bold text-sidebar-accent"><span>API usage</span><span>72%</span></div>
-          <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-sidebar-foreground/15"><div className="h-full w-[72%] rounded-full bg-sidebar-accent" /></div>
-          <p className="mt-2.5 text-[11px] text-sidebar-foreground/60">7,240 of 10,000 requests</p>
-          <Button variant="link" className="mt-1 h-auto p-0 text-xs text-sidebar-accent">Upgrade plan <ArrowUpRight /></Button>
-        </div>
-        <div className="flex items-center gap-3 border-t border-sidebar-muted p-4">
-          <div className="grid h-9 w-9 place-items-center rounded-full bg-sidebar-accent font-heading text-xs font-bold text-primary-foreground">MR</div>
-          <div className="min-w-0 flex-1"><p className="truncate text-xs font-bold">Myra Rose</p><p className="truncate text-[11px] text-sidebar-foreground/55">Workspace owner</p></div>
-          <ChevronDown className="h-4 w-4 text-sidebar-foreground/55" />
-        </div>
-      </aside>
-    </>
-  );
-}
-
-function Dashboard() {
-  const overviewMetrics = [
-    { label: "Contacts", value: "48,291", change: "+8.4% this month", icon: Users },
-    { label: "Emails sent", value: "124,892", change: "+12.5% this month", icon: Send },
-    { label: "API requests", value: "7,240", change: "99.98% successful", icon: Code2 },
-    { label: "Open rate", value: "42.3%", change: "+2.1% this month", icon: Activity },
-  ];
-
-  const workflow = [
-    { label: "New contact", icon: Users },
-    { label: "Send welcome", icon: Mail },
-    { label: "Wait 1 day", icon: Clock3 },
-    { label: "Send follow-up", icon: Send },
-  ];
-
-  return (
-    <div className="space-y-6">
-      <section className="grid grid-cols-2 gap-3 xl:grid-cols-4">
-        {overviewMetrics.map(({ label, value, change, icon: Icon }) => (
-          <article key={label} className="rounded-lg border bg-card p-4 shadow-soft sm:p-5">
-            <div className="flex items-center gap-3">
-              <div className="grid h-9 w-9 place-items-center rounded-md bg-primary-soft text-primary"><Icon className="h-4 w-4" /></div>
-              <p className="text-xs font-semibold text-muted-foreground sm:text-sm">{label}</p>
+          <div className="min-w-0 p-4 sm:p-5">
+            <div className="flex items-start justify-between gap-3"><div><p className="font-heading text-sm font-bold">Good morning, Myra</p><p className="mt-1 text-[10px] text-muted-foreground">Your email performance this month</p></div><Button size="sm" className="h-8 px-3 text-[11px]"><Send /> Send campaign</Button></div>
+            <div className="mt-5 grid grid-cols-2 gap-2 sm:grid-cols-3">
+              {[['Emails sent','124.8k'],['Open rate','42.3%'],['API health','99.98%']].map(([label,value], i) => <div key={label} className={`rounded-md border p-3 ${i === 2 ? "hidden sm:block" : ""}`}><p className="text-[9px] font-semibold text-muted-foreground">{label}</p><p className="mt-2 font-heading text-base font-bold">{value}</p><p className="mt-1 text-[9px] font-bold text-primary">↑ healthy</p></div>)}
             </div>
-            <p className="mt-4 font-heading text-2xl font-bold text-foreground sm:text-[28px]">{value}</p>
-            <p className="mt-2 flex items-center gap-1 text-xs font-bold text-success"><ArrowUpRight className="h-3.5 w-3.5" />{change}</p>
-          </article>
-        ))}
-      </section>
-
-      <section className="grid gap-5 xl:grid-cols-[minmax(0,1.65fr)_minmax(280px,0.75fr)]">
-        <article className="rounded-lg border bg-card shadow-soft">
-          <div className="flex flex-wrap items-center justify-between gap-3 border-b p-5">
-            <div><h2 className="font-heading text-base font-bold">Email performance</h2><p className="mt-1 text-xs text-muted-foreground">Delivered and opened messages over the last 30 days</p></div>
-            <Button variant="outline" size="sm">Last 30 days <ChevronDown /></Button>
-          </div>
-          <div className="p-5">
-            <div className="mb-4 flex gap-5 text-xs font-semibold text-muted-foreground"><span className="flex items-center gap-2"><i className="h-2 w-2 rounded-full bg-primary" />Delivered</span><span className="flex items-center gap-2"><i className="h-2 w-2 rounded-full bg-secondary" />Opened</span></div>
-            <div className="relative h-[210px] overflow-hidden rounded-md bg-grid">
-              <div className="absolute inset-x-0 top-3 flex justify-between px-2 text-[10px] text-muted-foreground"><span>12k</span><span>9k</span><span>6k</span><span>3k</span></div>
-              <svg viewBox="0 0 720 210" preserveAspectRatio="none" className="absolute inset-0 h-full w-full text-primary" aria-label="Email performance chart" role="img">
-                <path d="M0 170 C65 152,90 160,140 125 S230 112,280 130 S375 92,420 104 S505 55,560 78 S650 38,720 48" fill="none" stroke="currentColor" strokeWidth="3" />
-                <path d="M0 184 C70 172,100 178,145 157 S225 151,280 164 S370 130,420 142 S510 112,560 122 S655 86,720 98" fill="none" stroke="hsl(var(--secondary))" strokeWidth="2" strokeDasharray="5 5" />
-              </svg>
-              <div className="absolute bottom-2 inset-x-3 flex justify-between text-[10px] text-muted-foreground"><span>Aug 19</span><span>Aug 25</span><span>Sep 1</span><span>Sep 8</span><span>Sep 16</span></div>
-            </div>
-          </div>
-        </article>
-
-        <article className="rounded-lg border bg-card p-5 shadow-soft">
-          <div className="flex items-center justify-between"><div><h2 className="font-heading text-base font-bold">Top countries</h2><p className="mt-1 text-xs text-muted-foreground">Audience distribution</p></div><Users className="h-4 w-4 text-muted-foreground" /></div>
-          <div className="mt-7 flex items-center justify-center gap-7">
-            <div className="relative h-28 w-28 shrink-0">
-              <svg viewBox="0 0 42 42" className="h-full w-full -rotate-90" role="img" aria-label="Audience by country">
-                <circle cx="21" cy="21" r="15.9" fill="none" stroke="hsl(var(--muted))" strokeWidth="6" />
-                <circle cx="21" cy="21" r="15.9" fill="none" stroke="hsl(var(--primary))" strokeWidth="6" strokeDasharray="45 55" />
-                <circle cx="21" cy="21" r="15.9" fill="none" stroke="hsl(var(--secondary))" strokeWidth="6" strokeDasharray="24 76" strokeDashoffset="-45" />
-              </svg>
-              <div className="absolute inset-0 grid place-items-center text-center"><span className="font-heading text-lg font-bold">48k</span></div>
-            </div>
-            <div className="min-w-[110px] space-y-3 text-xs">
-              {[{n:"United States",v:"45%",c:"bg-primary"},{n:"United Kingdom",v:"24%",c:"bg-secondary"},{n:"Canada",v:"15%",c:"bg-muted-foreground"},{n:"Other",v:"16%",c:"bg-muted"}].map((item) => <div key={item.n} className="flex items-center justify-between gap-3"><span className="flex items-center gap-2 text-muted-foreground"><i className={`h-2 w-2 rounded-full ${item.c}`} />{item.n}</span><b>{item.v}</b></div>)}
-            </div>
-          </div>
-        </article>
-      </section>
-
-      <section className="rounded-lg border bg-card p-5 shadow-soft">
-        <div className="flex items-center justify-between"><div><h2 className="font-heading text-base font-bold">Automation workflow</h2><p className="mt-1 text-xs text-muted-foreground">Welcome sequence · Active</p></div><Button variant="ghost" size="sm">Manage workflow <ArrowUpRight /></Button></div>
-        <div className="mt-7 grid grid-cols-2 gap-4 sm:flex sm:items-center sm:justify-center">
-          {workflow.map(({ label, icon: Icon }, index) => (
-            <div key={label} className="contents">
-              <div className="flex min-w-[110px] flex-col items-center gap-2 text-center">
-                <div className="grid h-12 w-12 place-items-center rounded-full border border-primary/20 bg-primary-soft text-primary"><Icon className="h-5 w-5" /></div>
-                <span className="text-xs font-bold text-muted-foreground">{label}</span>
+            <div className="mt-3 rounded-md border p-4">
+              <div className="flex items-center justify-between"><p className="text-[11px] font-bold">Email performance</p><p className="text-[9px] text-muted-foreground">Last 30 days</p></div>
+              <div className="mt-5 flex h-28 items-end gap-2 border-b border-l px-2">
+                {bars.map((height, index) => <span key={index} className="flex-1 rounded-t-sm bg-primary/25" style={{ height: `${height}%` }}><span className="block h-[38%] w-full rounded-t-sm bg-primary" /></span>)}
               </div>
-              {index < workflow.length - 1 && <MoveRight className="hidden h-5 w-8 shrink-0 text-border sm:block" />}
             </div>
-          ))}
+            <div className="mt-3 flex items-center justify-between rounded-md border p-3"><div className="flex items-center gap-2"><span className="grid h-7 w-7 place-items-center rounded-full bg-primary-soft text-primary"><Zap className="h-3.5 w-3.5" /></span><div><p className="text-[10px] font-bold">Welcome automation</p><p className="text-[9px] text-muted-foreground">4 steps · 3,249 entered</p></div></div><ChevronRight className="h-4 w-4 text-muted-foreground" /></div>
+          </div>
         </div>
-      </section>
+      </div>
+      <div className="absolute -bottom-6 right-4 hidden w-48 rounded-md border bg-card p-4 shadow-modal sm:block">
+        <div className="flex items-center justify-between"><span className="text-[10px] font-bold text-muted-foreground">API STATUS</span><span className="h-2 w-2 rounded-full bg-primary" /></div>
+        <p className="mt-2 font-heading text-sm font-bold">All systems operational</p>
+      </div>
     </div>
   );
-}
-
-function Campaigns({ create }: { create: () => void }) {
-  return <div className="space-y-5"><div className="flex justify-end"><Button onClick={create}><Plus /> New campaign</Button></div><section className="grid gap-4 md:grid-cols-3">{campaigns.map((c) => <article key={c.name} className="rounded-lg border bg-card p-5 shadow-soft"><div className="flex justify-between"><div className="grid h-9 w-9 place-items-center rounded-md bg-primary-soft text-primary"><Mail /></div><Button variant="ghost" size="icon"><MoreHorizontal /></Button></div><h2 className="mt-5 font-heading text-base font-bold">{c.name}</h2><p className="mt-1 text-xs text-muted-foreground">{c.type}</p><div className="mt-5 grid grid-cols-3 border-t pt-4 text-xs"><div><p className="text-muted-foreground">Sent</p><p className="mt-1 font-bold">{c.sent}</p></div><div><p className="text-muted-foreground">Opened</p><p className="mt-1 font-bold">{c.open}</p></div><div><p className="text-muted-foreground">Clicked</p><p className="mt-1 font-bold">{c.click}</p></div></div></article>)}</section></div>;
-}
-
-function DeveloperApi() {
-  const copyKey = () => { navigator.clipboard?.writeText("gm_live_••••••••••••••••"); toast.success("API key copied"); };
-  return <div className="grid gap-5 xl:grid-cols-[1fr_1.4fr]"><section className="space-y-5"><article className="rounded-lg border bg-card p-5 shadow-soft"><div className="flex items-center justify-between"><div className="grid h-9 w-9 place-items-center rounded-md bg-primary-soft text-primary"><KeyRound /></div><span className="rounded-full bg-success-soft px-2 py-1 text-[10px] font-bold text-success">LIVE</span></div><h2 className="mt-5 font-heading text-base font-bold">Production API key</h2><p className="mt-1 text-xs text-muted-foreground">Created on August 24, 2026</p><div className="mt-4 flex items-center gap-2 rounded-md border bg-muted px-3 py-2 font-mono text-xs"><span className="min-w-0 flex-1 truncate">gm_live_••••••••••••••••</span><Button variant="ghost" size="icon" onClick={copyKey} aria-label="Copy API key"><Copy /></Button></div></article><article className="rounded-lg border bg-card p-5 shadow-soft"><h2 className="font-heading text-base font-bold">API health</h2><div className="mt-5 space-y-4">{[["Requests today","7,240"],["Success rate","99.98%"],["Median latency","42 ms"]].map(([a,b]) => <div key={a} className="flex justify-between text-sm"><span className="text-muted-foreground">{a}</span><strong>{b}</strong></div>)}</div></article></section><section className="overflow-hidden rounded-lg bg-code text-code-foreground shadow-code"><div className="flex items-center justify-between border-b border-code-border p-5"><h2 className="font-heading text-base font-bold">Live request log</h2><span className="flex items-center gap-2 text-xs text-code-muted"><i className="h-2 w-2 animate-pulse rounded-full bg-success" />Listening</span></div><div className="divide-y divide-code-border">{logs.map((l, i) => <div key={`${l.path}-${i}`} className="grid grid-cols-[48px_1fr_auto] gap-3 p-4 font-mono text-xs"><span className="text-secondary">{l.method}</span><div><p>{l.path}</p><p className="mt-1 text-code-muted">{l.when}</p></div><div className="text-right"><p className="text-success">{l.status}</p><p className="mt-1 text-code-muted">{l.time}</p></div></div>)}</div></section></div>;
-}
-
-function Audiences() {
-  return <div className="grid gap-5 lg:grid-cols-3"><article className="rounded-lg border bg-card p-6 shadow-soft lg:col-span-2"><div className="flex items-center justify-between"><div><h2 className="font-heading text-base font-bold">Audience growth</h2><p className="mt-1 text-xs text-muted-foreground">Subscribers added in the last 30 days</p></div><span className="text-sm font-bold text-success">+8.4%</span></div><div className="mt-8 grid h-48 grid-cols-12 items-end gap-2">{[32,45,38,54,48,62,57,72,64,82,75,92].map((h,i)=><div key={i} className="rounded-t bg-primary/15 transition-colors hover:bg-primary" style={{height:`${h}%`}} />)}</div></article><article className="rounded-lg border bg-card p-6 shadow-soft"><div className="grid h-10 w-10 place-items-center rounded-md bg-primary-soft text-primary"><Users /></div><p className="mt-6 text-sm text-muted-foreground">Total contacts</p><p className="mt-1 font-heading text-3xl font-bold">48,291</p><div className="mt-6 space-y-3 border-t pt-5 text-sm"><div className="flex justify-between"><span className="text-muted-foreground">Subscribed</span><b>46,920</b></div><div className="flex justify-between"><span className="text-muted-foreground">Unsubscribed</span><b>1,371</b></div></div></article></div>;
 }
 
 export default function Index() {
-  const [active, setActive] = useState<View>("Dashboard");
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [composerOpen, setComposerOpen] = useState(false);
-  const [theme, setTheme] = useState<Theme>(() => {
-    const savedTheme = window.localStorage.getItem("goood-mail-theme");
-    return savedTheme === "light" ? "light" : "dark";
-  });
+  const [theme, setTheme] = useState<Theme>(() => window.localStorage.getItem("goood-mail-theme") === "dark" ? "dark" : "light");
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", theme === "dark");
@@ -235,42 +126,69 @@ export default function Index() {
   }, [theme]);
 
   return (
-    <div className="flex min-h-screen bg-background">
-      <Sidebar active={active} setActive={setActive} open={sidebarOpen} close={() => setSidebarOpen(false)} />
-      <div className="min-w-0 flex-1">
-        <header className="sticky top-0 z-30 flex h-[72px] items-center gap-3 border-b bg-background/90 px-4 backdrop-blur-md sm:px-6 lg:px-8">
-          <Button variant="ghost" size="icon" className="lg:hidden" onClick={() => setSidebarOpen(true)} aria-label="Open navigation"><Menu /></Button>
-          <div className="min-w-0 flex-1"><h1 className="truncate font-heading text-base font-bold sm:text-lg">{active}</h1><p className="hidden text-xs text-muted-foreground sm:block">Welcome back, Myra. Here’s what’s happening today.</p></div>
-          <div className="relative hidden max-w-[260px] flex-1 md:block"><Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" /><input className="h-9 w-full rounded-md border bg-card pl-9 pr-3 text-xs outline-none transition-shadow placeholder:text-muted-foreground focus:ring-2 focus:ring-ring" placeholder="Search campaigns, contacts..." aria-label="Search" /></div>
-          <div className="flex h-9 items-center rounded-md border bg-card p-1" aria-label="Color theme">
-            <Button
-              variant="ghost"
-              size="icon"
-              className={`h-7 w-7 ${theme === "light" ? "bg-muted text-foreground" : "text-muted-foreground"}`}
-              onClick={() => setTheme("light")}
-              aria-label="Use light theme"
-              aria-pressed={theme === "light"}
-            ><Sun className="h-3.5 w-3.5" /></Button>
-            <Button
-              variant="ghost"
-              size="icon"
-              className={`h-7 w-7 ${theme === "dark" ? "bg-primary text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground" : "text-muted-foreground"}`}
-              onClick={() => setTheme("dark")}
-              aria-label="Use dark theme"
-              aria-pressed={theme === "dark"}
-            ><Moon className="h-3.5 w-3.5" /></Button>
+    <div className="min-h-screen bg-background text-foreground">
+      <header className="sticky top-0 z-50 border-b bg-background/90 backdrop-blur-lg">
+        <div className="mx-auto flex h-[72px] max-w-[1240px] items-center justify-between px-5 sm:px-8">
+          <Brand />
+          <nav className="hidden items-center gap-7 lg:flex" aria-label="Main navigation">
+            <a href="#platform" className="text-sm font-semibold text-muted-foreground transition-colors hover:text-foreground">Platform</a>
+            <a href="#developers" className="text-sm font-semibold text-muted-foreground transition-colors hover:text-foreground">Developers</a>
+            <a href="#automation" className="text-sm font-semibold text-muted-foreground transition-colors hover:text-foreground">Automation</a>
+            <a href="#results" className="text-sm font-semibold text-muted-foreground transition-colors hover:text-foreground">Results</a>
+          </nav>
+          <div className="hidden items-center gap-2 sm:flex">
+            <ThemeControl theme={theme} setTheme={setTheme} />
+            <Button variant="ghost" asChild><Link to="/dashboard">Sign in</Link></Button>
+            <Button asChild><Link to="/dashboard">Start sending <ArrowRight /></Link></Button>
           </div>
-          <Button variant="ghost" size="icon" aria-label="Notifications" className="relative"><Bell /><span className="absolute right-2 top-2 h-1.5 w-1.5 rounded-full bg-primary" /></Button>
-          <Button onClick={() => setComposerOpen(true)}><Plus /> <span className="hidden sm:inline">New campaign</span></Button>
-        </header>
-        <main className="mx-auto max-w-[1500px] p-4 sm:p-6 lg:p-8">
-          {active === "Dashboard" && <Dashboard />}
-          {active === "Campaigns" && <Campaigns create={() => setComposerOpen(true)} />}
-          {active === "Developer API" && <DeveloperApi />}
-          {active === "Audiences" && <Audiences />}
-        </main>
-      </div>
-      {composerOpen && <div className="fixed inset-0 z-[60] grid place-items-center bg-foreground/30 p-4" role="dialog" aria-modal="true" aria-labelledby="composer-title" onMouseDown={(event) => { if (event.target === event.currentTarget) setComposerOpen(false); }}><div className="w-full max-w-lg rounded-lg border bg-card shadow-modal"><div className="flex items-center justify-between border-b p-5"><div><p className="text-xs font-bold text-primary">CREATE CAMPAIGN</p><h2 id="composer-title" className="mt-1 font-heading text-lg font-bold">Start with a format</h2></div><Button variant="ghost" size="icon" onClick={() => setComposerOpen(false)} aria-label="Close"><X /></Button></div><div className="grid gap-3 p-5 sm:grid-cols-2">{[{t:"Marketing campaign",d:"A designed email for your audience",i:Sparkles},{t:"Plain text email",d:"A personal, focused message",i:FileText},{t:"Automated sequence",d:"Trigger emails from customer actions",i:Zap},{t:"Developer send",d:"Send one email using the API",i:Code2}].map(({t,d,i:Icon})=><button key={t} className="group rounded-lg border p-4 text-left transition-all hover:border-primary hover:bg-primary-soft focus:outline-none focus:ring-2 focus:ring-ring" onClick={()=>{setComposerOpen(false); toast.success(`${t} selected`);}}><div className="grid h-9 w-9 place-items-center rounded-md bg-muted text-muted-foreground group-hover:bg-primary group-hover:text-primary-foreground"><Icon className="h-4 w-4" /></div><p className="mt-4 text-sm font-bold">{t}</p><p className="mt-1 text-xs leading-5 text-muted-foreground">{d}</p></button>)}</div><div className="flex items-center justify-between border-t bg-muted/50 px-5 py-4"><p className="flex items-center gap-2 text-xs text-muted-foreground"><Check className="h-3.5 w-3.5 text-success" />Drafts save automatically</p><Button variant="ghost" size="sm" onClick={() => setComposerOpen(false)}>Cancel</Button></div></div></div>}
+          <Button variant="ghost" size="icon" className="sm:hidden" onClick={() => setMenuOpen(!menuOpen)} aria-label={menuOpen ? "Close menu" : "Open menu"}>{menuOpen ? <X /> : <Menu />}</Button>
+        </div>
+        {menuOpen && <div className="border-t bg-background p-5 sm:hidden"><nav className="space-y-1">{[["Platform","#platform"],["Developers","#developers"],["Automation","#automation"],["Results","#results"]].map(([label,href]) => <a key={label} href={href} onClick={() => setMenuOpen(false)} className="block rounded-md px-3 py-3 text-sm font-semibold hover:bg-muted">{label}</a>)}</nav><div className="mt-4 flex items-center gap-2 border-t pt-4"><ThemeControl theme={theme} setTheme={setTheme} /><Button className="flex-1" asChild><Link to="/dashboard">Start sending <ArrowRight /></Link></Button></div></div>}
+      </header>
+
+      <main>
+        <section className="relative overflow-hidden border-b">
+          <div className="absolute inset-0 bg-grid opacity-55" aria-hidden="true" />
+          <div className="relative mx-auto grid min-h-[690px] max-w-[1240px] items-center gap-14 px-5 py-20 sm:px-8 lg:grid-cols-[0.88fr_1.12fr] lg:py-24">
+            <div className="max-w-xl">
+              <div className="mb-7 inline-flex items-center gap-2 rounded-full border bg-card px-3 py-1.5 text-xs font-bold text-muted-foreground shadow-soft"><span className="h-2 w-2 rounded-full bg-primary" />Campaigns and transactional email, together</div>
+              <h1 className="font-heading text-[42px] font-bold leading-[1.08] sm:text-6xl lg:text-[64px]">Every email your business sends. <span className="text-primary">One clear system.</span></h1>
+              <p className="mt-7 max-w-lg text-base leading-7 text-muted-foreground sm:text-lg">Create campaigns, automate customer journeys, and send product email through a developer-friendly API—all without switching tools.</p>
+              <div className="mt-9 flex flex-col gap-3 sm:flex-row"><Button size="lg" asChild><Link to="/dashboard">Start sending free <ArrowRight /></Link></Button><Button size="lg" variant="outline" asChild><Link to="/dashboard">Explore the dashboard</Link></Button></div>
+              <div className="mt-8 flex flex-wrap gap-x-6 gap-y-3 text-xs font-semibold text-muted-foreground">{["No credit card", "Fast API setup", "Campaign analytics"].map(item => <span key={item} className="flex items-center gap-2"><Check className="h-4 w-4 text-primary" />{item}</span>)}</div>
+            </div>
+            <ProductPreview />
+          </div>
+        </section>
+
+        <section id="results" className="border-b bg-card">
+          <div className="mx-auto grid max-w-[1240px] grid-cols-2 gap-px bg-border px-5 sm:px-8 lg:grid-cols-4">
+            {[['124M+','messages delivered'],['99.98%','successful requests'],['42 ms','median API response'],['48K+','active contacts']].map(([value,label]) => <div key={label} className="bg-card px-5 py-8 text-center sm:py-10"><p className="font-heading text-2xl font-bold sm:text-3xl">{value}</p><p className="mt-2 text-xs font-semibold text-muted-foreground">{label}</p></div>)}
+          </div>
+        </section>
+
+        <section id="platform" className="mx-auto max-w-[1240px] px-5 py-20 sm:px-8 lg:py-28">
+          <div className="grid gap-8 lg:grid-cols-[0.75fr_1.25fr] lg:gap-20">
+            <div><p className="text-xs font-bold uppercase text-primary">One operating system</p><h2 className="mt-4 max-w-md font-heading text-3xl font-bold leading-tight sm:text-4xl">Built for the whole email operation</h2><p className="mt-5 max-w-md leading-7 text-muted-foreground">Give marketing teams control and developers dependable infrastructure, with shared reporting across every send.</p></div>
+            <div className="divide-y border-y">{capabilities.map(({icon:Icon,label,title,copy,stat,statLabel}) => <article key={label} className="grid gap-5 py-7 sm:grid-cols-[48px_1fr_130px] sm:items-start"><span className="grid h-11 w-11 place-items-center rounded-md bg-primary-soft text-primary"><Icon className="h-5 w-5" /></span><div><p className="text-xs font-bold uppercase text-primary">{label}</p><h3 className="mt-2 font-heading text-lg font-bold">{title}</h3><p className="mt-2 text-sm leading-6 text-muted-foreground">{copy}</p></div><div className="sm:text-right"><p className="font-heading text-xl font-bold">{stat}</p><p className="mt-1 text-[11px] text-muted-foreground">{statLabel}</p></div></article>)}</div>
+          </div>
+        </section>
+
+        <section id="developers" className="bg-foreground text-background dark:bg-card dark:text-foreground">
+          <div className="mx-auto grid max-w-[1240px] gap-12 px-5 py-20 sm:px-8 lg:grid-cols-2 lg:items-center lg:py-28">
+            <div><span className="grid h-11 w-11 place-items-center rounded-md bg-primary text-primary-foreground"><Code2 className="h-5 w-5" /></span><p className="mt-7 text-xs font-bold uppercase text-primary">Developer API</p><h2 className="mt-4 max-w-lg font-heading text-3xl font-bold leading-tight sm:text-4xl">From API key to delivered email in one request</h2><p className="mt-5 max-w-lg leading-7 text-background/65 dark:text-muted-foreground">A focused sending API, clear event logs, and the delivery signals your team needs to build with confidence.</p><Button className="mt-8" asChild><Link to="/dashboard">Open developer workspace <ArrowRight /></Link></Button></div>
+            <div className="overflow-hidden rounded-lg border border-code-border bg-code shadow-code"><div className="flex h-11 items-center justify-between border-b border-code-border px-4"><div className="flex gap-1.5"><i className="h-2.5 w-2.5 rounded-full bg-destructive" /><i className="h-2.5 w-2.5 rounded-full bg-secondary" /><i className="h-2.5 w-2.5 rounded-full bg-primary" /></div><span className="font-mono text-[10px] text-code-muted">send.ts</span></div><pre className="overflow-x-auto p-5 font-mono text-xs leading-7 text-code-foreground sm:p-7"><code><span className="text-code-accent">const</span> response = <span className="text-code-accent">await</span> mail.send({`\n  `}from: <span className="text-primary">&quot;hello@yourbrand.com&quot;</span>,{`\n  `}to: <span className="text-primary">&quot;customer@example.com&quot;</span>,{`\n  `}subject: <span className="text-primary">&quot;Welcome aboard&quot;</span>,{`\n  `}template: <span className="text-primary">&quot;welcome-series&quot;</span>{`\n`}});{`\n\n`}<span className="text-code-muted">// 202 Accepted · 42 ms</span></code></pre></div>
+          </div>
+        </section>
+
+        <section id="automation" className="border-b">
+          <div className="mx-auto max-w-[1240px] px-5 py-20 sm:px-8 lg:py-28"><div className="mx-auto max-w-2xl text-center"><p className="text-xs font-bold uppercase text-primary">Automation that stays readable</p><h2 className="mt-4 font-heading text-3xl font-bold sm:text-4xl">Design journeys without losing the thread</h2><p className="mt-5 leading-7 text-muted-foreground">Connect the moments that matter, then see exactly how each message performs.</p></div><div className="mt-14 grid gap-3 md:grid-cols-[1fr_auto_1fr_auto_1fr_auto_1fr] md:items-center">{[[Users,"New contact"],[Mail,"Send welcome"],[Activity,"Wait 1 day"],[Send,"Send follow-up"]].map(([Icon,label],index) => { const StepIcon = Icon as typeof Users; return <div key={label as string} className="contents"><div className="rounded-lg border bg-card p-5 shadow-soft"><span className="grid h-10 w-10 place-items-center rounded-md bg-primary-soft text-primary"><StepIcon className="h-4 w-4" /></span><p className="mt-5 text-xs font-bold text-primary">STEP {index + 1}</p><p className="mt-2 font-heading text-sm font-bold">{label as string}</p></div>{index < 3 && <ArrowRight className="mx-auto hidden h-5 w-5 text-muted-foreground md:block" />}</div>})}</div></div>
+        </section>
+
+        <section className="mx-auto max-w-[1240px] px-5 py-20 sm:px-8 lg:py-28"><div className="grid overflow-hidden rounded-lg border bg-card lg:grid-cols-[1fr_0.82fr]"><div className="p-7 sm:p-12"><p className="text-xs font-bold uppercase text-primary">Start with clarity</p><h2 className="mt-4 max-w-xl font-heading text-3xl font-bold sm:text-4xl">Your next campaign and your next product email belong in the same place.</h2><p className="mt-5 max-w-xl leading-7 text-muted-foreground">Bring campaigns, audiences, automations, and API delivery into one professional workspace.</p><div className="mt-8 flex flex-col gap-3 sm:flex-row"><Button size="lg" asChild><Link to="/dashboard">Start sending free <ArrowRight /></Link></Button><Button size="lg" variant="outline" asChild><a href="#developers">View the API</a></Button></div></div><div className="grid grid-cols-2 gap-px bg-border border-t lg:border-l lg:border-t-0">{[[ShieldCheck,"Protected sending"],[Globe2,"Global delivery"],[BarChart3,"Unified reporting"],[Zap,"Fast automation"]].map(([Icon,label]) => { const FeatureIcon = Icon as typeof ShieldCheck; return <div key={label as string} className="bg-muted/45 p-6"><FeatureIcon className="h-5 w-5 text-primary" /><p className="mt-4 text-sm font-bold">{label as string}</p></div>})}</div></div></section>
+      </main>
+
+      <footer className="border-t bg-card"><div className="mx-auto flex max-w-[1240px] flex-col gap-6 px-5 py-8 sm:px-8 md:flex-row md:items-center md:justify-between"><Brand /><p className="text-xs text-muted-foreground">Campaigns, automation, and transactional email in one system.</p><div className="flex gap-5 text-xs font-semibold text-muted-foreground"><a href="#platform" className="hover:text-foreground">Platform</a><a href="#developers" className="hover:text-foreground">API</a><Link to="/dashboard" className="hover:text-foreground">Dashboard</Link></div></div></footer>
     </div>
   );
 }
